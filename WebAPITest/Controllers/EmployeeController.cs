@@ -15,17 +15,17 @@ namespace WebAPITest.Controllers
         {
             _employeeManager = employeeManager;
         }
-
-        public IEnumerable<Employee> Get()
+                
+        public IEnumerable<Employee> Get(bool getDefault = false)
         {
-            return _employeeManager.GetAllEmployees();
+            return _employeeManager.GetAllEmployees(getDefault);
         }
-
+        
         public Employee GetEmployeeById(int id)
-        {
+        {            
             return _employeeManager.GetEmployeeById(id);
         }
-
+        
         public Employee PostEmployee(Employee employee)
         {
             return _employeeManager.VerifyAndSave(employee);

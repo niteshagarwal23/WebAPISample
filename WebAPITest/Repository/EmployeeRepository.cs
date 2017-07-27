@@ -9,31 +9,35 @@ namespace WebAPITest.Repository
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        IDataTable<Employee> dt;
+        readonly IDataTable<Employee> _dt;
+
         public EmployeeRepository(IDataTable<Employee> employeeDT)
         {
-            dt = employeeDT;
+            _dt = employeeDT;
         }
 
-        public IEnumerable<Employee> GetAllEmployees()
+        public IEnumerable<Employee> GetAllEmployees(bool getDefault)
         {
-            return dt.Data;
+            if (getDefault)
+            {
+                _dt.ResetCollection();
+            }
+            return _dt.Data;
         }
 
         public Employee GetEmployeeById(int id)
         {
-            return dt.Data.FirstOrDefault(x => x.ID == id);
+            return _dt.Data.FirstOrDefault(x => x.ID == id);
         }
-
 
         public Employee SaveEmployee(Employee employee)
         {
-            return dt.Add(employee);
+            return _dt.Add(employee);
         }
 
         public bool DeleteEmployee(int empId)
         {
-            return dt.Delete(empId);
+            return _dt.Delete(empId);
         }
     }
 }

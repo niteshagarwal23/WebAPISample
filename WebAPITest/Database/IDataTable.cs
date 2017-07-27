@@ -9,7 +9,11 @@ namespace WebAPITest.Database
     public interface IDataTable<T>
     {
         IEnumerable<T> Data { get; }
+
         T Add(T obj);
+
         bool Delete(int eId);
+
+        void ResetCollection();
     }
 }

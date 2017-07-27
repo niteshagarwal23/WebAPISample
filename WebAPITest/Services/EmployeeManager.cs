@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using WebAPITest.Models;
 using WebAPITest.Repository;
 
@@ -15,9 +12,9 @@ namespace WebAPITest.Services
             _employeeRepository = employeeRepository;
         }
 
-        public IEnumerable<Employee> GetAllEmployees()
+        public IEnumerable<Employee> GetAllEmployees(bool getDefault)
         {
-            return _employeeRepository.GetAllEmployees();
+            return _employeeRepository.GetAllEmployees(getDefault);
         }
 
         public Employee GetEmployeeById(int id)
@@ -29,12 +26,9 @@ namespace WebAPITest.Services
         {
             //verified here.
 
-
             //lets save now.
             return _employeeRepository.SaveEmployee(obj);
-
         }
-
 
         public bool VerifyAndDelete(int id)
         {

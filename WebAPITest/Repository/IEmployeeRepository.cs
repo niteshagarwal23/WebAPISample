@@ -9,7 +9,7 @@ namespace WebAPITest.Repository
 {
     public interface IEmployeeRepository
     {
-        IEnumerable<Employee> GetAllEmployees();
+        IEnumerable<Employee> GetAllEmployees(bool getDefault);
 
         Employee GetEmployeeById(int id);
 

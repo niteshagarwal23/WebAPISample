@@ -9,7 +9,7 @@ namespace WebAPITest.Services
 {
     public interface IEmployeeManager
     {
-        IEnumerable<Employee> GetAllEmployees();
+        IEnumerable<Employee> GetAllEmployees(bool getDefault);
 
         Employee GetEmployeeById(int id);
 
