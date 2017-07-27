@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Web API Sample</title>
+</head>
+<body>
+    <div>
+        <table id="employeeTbl">
+            <thead>
+                <tr>
+                    <th style="background-color: gray; color: white">ID</th>
+                    <th style="background-color: gray; color: white">Name</th>
+                    <th style="background-color: gray; color: white">Experience</th>
+                    <th style="background-color: gray; color: white">Designation</th>
+                    <th style="background-color: gray; color: white">Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <div>
+        <br />
+        <label>Search Record</label>
+        <br />
+        <input type="number" id="empID" />
+        <input type="button" id="btnSearch" value="Search" onclick="Search();" />
+    </div>
+
+
+    <input type="button" value="Add Dummy Employee" onclick="AddDummyEmployee();" />
+
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript">
+        var uri = "api/employee";
+        var template = "<tr id='Employee_ID_'><td>_ID_</td><td>_Name_</td><td>_Experience_</td><td>_Designation_</td>"+
+            "<td><a href='#' class='delete' data-id='_ID_'>&times;</a></td></tr>";
+
+        $(document).ready(function () {
+            searchAll();
+            BindDelete();
+        });
+
+
+
+        function BindDelete()
+        {
+            $('tbody').on('click', 'a.delete', function (e) {
+                e.preventDefault();
+                var id = $(this).data('id');
+                $.ajax({
+                    url: uri+"/"+id,
+                    type: 'DELETE',                    
+                    success: function(data)
+                    {                        
+                        if(data === true)
+                        {
+                            console.log("Deleting id = " + id);
+                            $("#employeeTbl tbody tr").remove("#Employee" + id);
+                        }
+                    }
+                });
+            });
+        }
+
+
+        function AddDummyEmployee()
+        {
+            $.ajax({
+                url: uri,
+                type: 'POST',
+                data:{"Name":"Dummy Name", "Experience":"-1", "Designation":"Dummy Desg."},
+                success: function (item) {
+                    if (item !== null && item !== undefined) {                        
+                        AddRows(item);                        
+                    }
+                },
+                error: function (request, message, error) {
+                    console.log(message);
+                    console.log(error);
+                    var msg = "";
+                    msg += "Code: " + request.status + "\n";
+                    msg += "Text: " + request.statusText + "\n";
+                    if (request.responseJSON != null) {
+                        msg += "Message: " +
+                            request.responseJSON.Message + "\n";
+                    }
+                    alert(msg);
+                }
+            });
+        }
+
+        function searchAll() {
+            //$.getJSON(uri)
+            //    .done(function (data) {
+            //        $("#employeeTbl tbody tr").remove();
+            //        $.each(data, function (key, item) {
+            //            AddRows(item);
+            //        });
+            //        ClearField($("#empID"));
+            //    });
+
+            $.ajax({
+                url: uri,
+                type: 'Get',
+                dataType: 'json',
+                success: function(data) {
+                    $("#employeeTbl tbody tr").remove();
+                    $.each(data, function (key, item) {
+                        AddRows(item);
+                    });
+                    ClearField($("#empID"));
+                },
+                error: function (request, message, error) {
+                    console.log(message);
+                    console.log(error);
+                    var msg = "";
+                    msg += "Code: " + request.status + "\n";
+                    msg += "Text: " + request.statusText + "\n";
+                    if (request.responseJSON != null) {
+                        msg += "Message: " +
+                            request.responseJSON.Message + "\n";
+                    }
+                    alert(msg);
+                }
+            });
+        }
+
+        function Search() {
+            var id = $("#empID").val();
+
+            if (id.length !== 0) {
+                //$.getJSON(uri + "/" + id)
+                //    .done(function (item) {
+                //        if (item !== null && item !== undefined) {
+                //            $("#employeeTbl tbody tr").remove();
+                //            AddRows(item);
+                //            ClearField($("#empID"));
+                //        }
+                //    })
+                //      .fail(function () {
+                //          console.log("error");
+                //      });
+                $.ajax({
+                    url: uri + "/" + id,
+                    type: 'Get',
+                    dataType: 'json',
+                    success: function (item) {
+                        if (item !== null && item !== undefined) {
+                            $("#employeeTbl tbody tr").remove();
+                            AddRows(item);
+                            ClearField($("#empID"));
+                        }
+                    },
+                    error: function (request, message, error) {
+                        var msg = "";
+                        msg += "Code: " + request.status + "\n";
+                        msg += "Text: " + request.statusText + "\n";
+                        if (request.responseJSON != null) {
+                            msg += "Message" +
+                                request.responseJSON.Message + "\n";
+                        }
+                        alert(msg);
+                    }
+                });
+            } else {
+                searchAll();
+            }
+        }
+
+        function AddRows(item) {
+
+            //instead of ("_ID_") use (/_ID/g) to replace all occurance
+            $("#employeeTbl")
+                .append(template
+                    .replace(/_ID_/g, item.ID)
+                    .replace(/_Name_/g, item.Name)
+                    .replace(/_Experience_/g, item.Experience)
+                    .replace(/_Designation_/g, item.Designation));
+        }
+
+        function ClearField(field) {
+            $(field).val('');
+        }
+    </script>
+</body>
+</html>
