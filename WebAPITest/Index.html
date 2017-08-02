@@ -119,6 +119,8 @@
                         if (item !== null && item !== undefined) {
                             AddRows(item);
                         }
+
+                        Close();
                     },
                     error: function (request, message, error) {
                         console.log(message);
@@ -153,11 +155,11 @@
 
                             $('#Employee' + data.ID).replaceWith(newHtml);
                         }
+
+                        Close();
                     }
                 });
             }
-
-            Close();
         }
 
         function SearchAll(getDefault) {
@@ -267,10 +269,10 @@
 
         function Close() {
 
-            ClearField('empId');
-            ClearField('empName');
-            ClearField('empDesg');
-            ClearField('empExp');
+            ClearField('#empId');
+            ClearField('#empName');
+            ClearField('#empDesg');
+            ClearField('#empExp');
 
             document.getElementById('addUpdate').style.display = 'none';
         }

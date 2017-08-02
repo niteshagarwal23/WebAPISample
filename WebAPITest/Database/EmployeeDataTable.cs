@@ -11,14 +11,10 @@ namespace WebAPITest.Database
         public IEnumerable<Employee> Data { get { return _data; } }
 
         private static List<Employee> _data;
-
-        private static readonly List<Employee> _defaultData;
         
         static EmployeeDataTable()
         {
-            _defaultData = GetEmployeeList();
-
-            _data = new List<Employee>(_defaultData);
+            _data = GetEmployeeList();
         }
 
         public Employee Add(Employee obj)
@@ -38,7 +34,7 @@ namespace WebAPITest.Database
                 first.Experience = obj.Experience;
             }
 
-            return obj;
+            return first;
         }
 
         public bool Delete(int eId)
@@ -60,7 +56,7 @@ namespace WebAPITest.Database
 
         public void ResetCollection()
         {
-            _data = new List<Employee>(_defaultData);
+            _data = GetEmployeeList();
         }
 
         private static List<Employee> GetEmployeeList()
