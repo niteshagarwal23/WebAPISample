@@ -13,7 +13,9 @@ namespace WebAPITest.Services
 
         Employee GetEmployeeById(int id);
 
-        Employee VerifyAndSave(Employee e);
+        Employee VerifyAndSave(Employee emp);
+
+        Employee VerifyAndUpdate(Employee emp);
 
         bool VerifyAndDelete(int id);
     }

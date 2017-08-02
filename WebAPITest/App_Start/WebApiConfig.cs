@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using Unity.WebApi;
 
 namespace WebAPITest
 {
@@ -14,6 +15,10 @@ namespace WebAPITest
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            var container = UnityConfig.RegisterComponents();
+
+            config.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
 }

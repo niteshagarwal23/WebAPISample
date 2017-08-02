@@ -11,7 +11,7 @@ namespace WebAPITest
     {
         protected void Application_Start()
         {
-            UnityConfig.RegisterComponents();
+            //UnityConfig.RegisterComponents();
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }

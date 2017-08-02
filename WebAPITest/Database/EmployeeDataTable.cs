@@ -28,9 +28,22 @@ namespace WebAPITest.Database
             return obj;
         }
 
+        public Employee Update(Employee obj)
+        {
+            var first = IsExists(obj.ID);
+            if (first != null)
+            {
+                first.Name = obj.Name;
+                first.Designation = obj.Designation;
+                first.Experience = obj.Experience;
+            }
+
+            return obj;
+        }
+
         public bool Delete(int eId)
         {
-            var first = _data.FirstOrDefault(c => c.ID == eId);
+            var first = IsExists(eId);
             if (first != null)
             {
                 _data.Remove(first);
@@ -40,6 +53,10 @@ namespace WebAPITest.Database
             return false;
         }
 
+        public Employee IsExists(int eId)
+        {
+            return _data.FirstOrDefault(c => c.ID == eId);
+        }
 
         public void ResetCollection()
         {

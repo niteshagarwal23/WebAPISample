@@ -30,6 +30,11 @@ namespace WebAPITest.Controllers
         {
             return _employeeManager.VerifyAndSave(employee);
         }
+
+        public Employee PutEmployee(Employee employee)
+        {
+            return _employeeManager.VerifyAndUpdate(employee);
+        }
         
         public bool DeleteEmployee(int id)
         {

@@ -1,6 +1,6 @@
 using Microsoft.Practices.Unity;
-using System.Web.Http;
-using Unity.WebApi;
+//using System.Web.Http;
+//using Unity.WebApi;
 using WebAPITest.Database;
 using WebAPITest.Models;
 using WebAPITest.Repository;
@@ -10,7 +10,7 @@ namespace WebAPITest
 {
     public static class UnityConfig
     {
-        public static void RegisterComponents()
+        public static UnityContainer RegisterComponents()
         {
 			var container = new UnityContainer();
             
@@ -22,9 +22,10 @@ namespace WebAPITest
             container.RegisterType<IEmployeeRepository, EmployeeRepository>();
             container.RegisterType<IEmployeeManager, EmployeeManager>();
             container.RegisterType<IDataTable<Employee>, EmployeeDataTable>();
-            
 
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+            return container;
+
+            //GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }
 }

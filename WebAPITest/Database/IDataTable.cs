@@ -12,6 +12,10 @@ namespace WebAPITest.Database
 
         T Add(T obj);
 
+        T Update(T obj);
+
+        T IsExists(int eId);
+
         bool Delete(int eId);
 
         void ResetCollection();

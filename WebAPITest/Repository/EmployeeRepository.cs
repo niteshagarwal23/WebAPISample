@@ -32,6 +32,16 @@ namespace WebAPITest.Repository
 
         public Employee SaveEmployee(Employee employee)
         {
+            if (employee.ID != 0)
+            {
+                var record = _dt.IsExists(employee.ID);
+
+                if (record != null)
+                {
+                    return _dt.Update(employee);
+                } 
+            }
+
             return _dt.Add(employee);
         }
 
